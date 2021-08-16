@@ -1,0 +1,3 @@
+org/acme/Signup.class
+org/acme/SignupRepository.class
+org/acme/SignupEndpoint.class
