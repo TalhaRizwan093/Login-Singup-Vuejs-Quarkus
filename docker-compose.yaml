@@ -1,0 +1,37 @@
+version: '3.5'
+
+
+services:
+
+  dbank:
+    image: mysql
+    restart: always
+    environment:
+       MYSQL_ROOT_PASSWORD: 'root'
+       MYSQL_DATABASE: 'bank'
+
+  hbl-screens:
+#    image: quarkus/hbl-screens-jvm:1.0-${QUARKUS_MODE:-jvm}
+    build:
+      context: hbl-screens
+      dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
+    ports:
+      - "8081:8080"
+    depends_on:
+      - dbank
+    restart:
+      on-failure
+
+
+
+
+
+
+  login:
+    build:
+      context: login
+      dockerfile: Dockerfile
+    depends_on:
+      - hbl-screens
+    ports:
+      - "8080:8080"
